@@ -1,30 +1,32 @@
-import React from "react";
+import React, { lazy } from "react";
 import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
 import { navigate } from "@reach/router";
-import Modal from "./Modal";
+import _ from "lodash";
+import moment from "moment";
+
+console.log(_, moment);
+const Modal = lazy(() => import("./Modal"));
 
 class Details extends React.Component {
   state = { loading: true, showModal: false };
 
   componentDidMount() {
     pet.animal(parseInt(this.props.id)).then(({ animal }) => {
-      this.setState(
-        {
-          url: animal.url,
-          name: animal.name,
-          animal: animal.type,
-          location: `${animal.contact.address.city} ${animal.contact.address.state}`,
-          description: animal.description,
-          media: animal.photos,
-          breed: animal.breeds.primary,
-          loading: false,
-        },
-        console.error
-      );
-    });
+      console.log("animal loaded");
+      this.setState({
+        url: animal.url,
+        name: animal.name,
+        animal: animal.type,
+        location: `${animal.contact.address.city} ${animal.contact.address.state}`,
+        description: animal.description,
+        media: animal.photos,
+        breed: animal.breeds.primary,
+        loading: false,
+      });
+    }, console.error);
   }
 
   toggleModal = () => this.setState({ showModal: !this.state.showModal });
