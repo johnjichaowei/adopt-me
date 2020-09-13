@@ -7,7 +7,12 @@ import { navigate } from "@reach/router";
 import Modal from "./Modal";
 
 class Details extends React.Component {
-  state = { loading: true, showModal: false };
+  constructor() {
+    super();
+    this.state = { loading: true, showModal: false };
+    this.toggleModal = this.toggleModal.bind(this);
+    this.adopt = this.adopt.bind(this);
+  }
 
   componentDidMount() {
     pet.animal(parseInt(this.props.id)).then(({ animal }) => {
@@ -27,9 +32,13 @@ class Details extends React.Component {
     });
   }
 
-  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  toggleModal() {
+    this.setState({ showModal: !this.state.showModal });
+  }
 
-  adopt = () => navigate(this.state.url);
+  adopt() {
+    navigate(this.state.url);
+  }
 
   render() {
     if (this.state.loading) {

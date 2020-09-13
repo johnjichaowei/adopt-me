@@ -3,7 +3,10 @@ import React from "react";
 import { Link, navigate } from "@reach/router";
 
 class ErrorBoundary extends React.Component {
-  state = { hasError: false };
+  constructor() {
+    super();
+    this.state = { hasError: false };
+  }
 
   static getDerivedStateFromError() {
     setTimeout(() => navigate("/"), 5000);
