@@ -1,25 +1,31 @@
-import React, { useState, useEffect, useContext } from "react";
-import pet, { ANIMALS } from "@frontendmasters/pet";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+} from "react";
+import pet, { ANIMALS, Animal } from "@frontendmasters/pet";
 import useDropdown from "./useDropdown";
 import Results from "./Results";
 import ThemeContext from "./ThemeContext";
+import { RouteComponentProps } from "@reach/router";
 
-export default function SearchParams() {
+const SearchParams: FunctionComponent<RouteComponentProps> = () => {
   const [location, setLocation] = useState("Seattle, WA");
-  const [breeds, setBreeds] = useState([]);
+  const [breeds, setBreeds] = useState([] as string[]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
-  const [pets, setPets] = useState([]);
+  const [breed, BreedDropdown, updateBreed] = useDropdown("Breed", "", breeds);
+  const [pets, setPets] = useState([] as Animal[]);
   const [theme, setTheme] = useContext(ThemeContext);
 
   useEffect(() => {
     setBreeds([]);
-    setBreed("");
+    updateBreed("");
     pet.breeds(animal).then(({ breeds: apiBreeds }) => {
       const breedStrings = apiBreeds.map(({ name }) => name);
       setBreeds(breedStrings);
     }, console.error);
-  }, [animal, setBreed, setBreeds]);
+  }, [animal, updateBreed, setBreeds]);
 
   async function requestPets() {
     const { animals } = await pet.animals({
@@ -68,4 +74,6 @@ export default function SearchParams() {
       <Results pets={pets} />
     </div>
   );
-}
+};
+
+export default SearchParams;

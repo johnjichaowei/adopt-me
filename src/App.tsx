@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
-import "regenerator-runtime/runtime";
 import { Router, Link } from "@reach/router";
 import ThemeContext from "./ThemeContext";
+import "regenerator-runtime/runtime";
 
 const App = () => {
   const themeHook = useState("peru");
